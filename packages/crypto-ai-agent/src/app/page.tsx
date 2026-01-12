@@ -28,9 +28,9 @@ export default function CryptoAIAgent() {
         body: JSON.stringify({ message: userMessage }),
       });
 
-      const data = await response.json();
+      const data: any = await response.json();
       setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
-    } catch (error) {
+    } catch {
       setMessages(prev => [...prev, { 
         role: 'assistant', 
         content: 'Sorry, I encountered an error. Please try again.' 
@@ -114,4 +114,6 @@ export default function CryptoAIAgent() {
     </div>
   );
 }
+
+
 

@@ -12,7 +12,7 @@ async function fetchCryptoData(query: string): Promise<string> {
       const response = await fetch(
         `${COINGECKO_API}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=24h`
       );
-      const data = await response.json();
+      const data: any[] = await response.json();
       
       // Sort by 24h price change
       const sorted = data.sort((a: any, b: any) => 
@@ -37,7 +37,7 @@ async function fetchCryptoData(query: string): Promise<string> {
       const response = await fetch(
         `${COINGECKO_API}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=24h`
       );
-      const data = await response.json();
+      const data: any[] = await response.json();
       
       const sorted = data.sort((a: any, b: any) => 
         (a.price_change_percentage_24h || 0) - (b.price_change_percentage_24h || 0)
@@ -59,7 +59,7 @@ async function fetchCryptoData(query: string): Promise<string> {
     // Trending coins
     if (lowerQuery.includes('trend') || lowerQuery.includes('popular') || lowerQuery.includes('hot')) {
       const response = await fetch(`${COINGECKO_API}/search/trending`);
-      const data = await response.json();
+      const data: any = await response.json();
       
       let result = '🔥 **Trending Cryptocurrencies**\n\n';
       data.coins.slice(0, 7).forEach((item: any, idx: number) => {
@@ -75,7 +75,7 @@ async function fetchCryptoData(query: string): Promise<string> {
     // Market overview
     if (lowerQuery.includes('market') || lowerQuery.includes('overview') || lowerQuery.includes('summary')) {
       const response = await fetch(`${COINGECKO_API}/global`);
-      const data = await response.json();
+      const data: any = await response.json();
       const global = data.data;
       
       let result = '🌍 **Global Crypto Market Overview**\n\n';
@@ -93,7 +93,7 @@ async function fetchCryptoData(query: string): Promise<string> {
     const response = await fetch(
       `${COINGECKO_API}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false&price_change_percentage=24h`
     );
-    const data = await response.json();
+    const data: any[] = await response.json();
     
     let result = '📊 **Top 10 Cryptocurrencies by Market Cap**\n\n';
     data.forEach((coin: any, idx: number) => {
@@ -113,7 +113,8 @@ async function fetchCryptoData(query: string): Promise<string> {
 
 export async function POST(request: NextRequest) {
   try {
-    const { message } = await request.json();
+    const body: any = await request.json();
+    const { message } = body;
     
     if (!message) {
       return NextResponse.json(
@@ -133,4 +134,8 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+
+
+
 
